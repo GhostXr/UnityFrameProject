@@ -1,0 +1,27 @@
+local cs = CS.UnityEngine;
+local ui = CS.UnityEngine.UI;
+local framework = CS.QUIFrameWork;
+
+function OnAwake()
+	print("test main lua OnAwake")
+end
+
+function OnStart()
+	local text = self.OwnerGameObject:FindChild("Text"):GetComponent("Text");
+	text.text = "TestView";
+
+	local btn = self.OwnerGameObject:FindChild("Button"):GetComponent("Button");
+
+	local btnListener = framework.QEventTriggerListener:Get(btn.gameObject);
+	local _params = {};
+	btnListener:SetTouchEventHandle (framework.EnumEventTouchType.OnClick, OnClickButton, _params);
+	print("test main lua OnStart")
+end
+
+function OnClickButton(_listener, _args, _params)
+
+	CloseSelf ();
+	local uiInfoData = cs.UIInfoData.new(framework.EnumUIClass.TestView2, "", _params)
+	framework.QUIManager.Instance:PushUI (uiInfoData);
+	return;
+end
